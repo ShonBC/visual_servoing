@@ -1,0 +1,40 @@
+#!/usr/bin/env python
+
+import geometry_msgs.msg
+import rospy
+import tf2_ros
+from fiducial_msgs.msg import FiducialTransform, FiducialTransformArray
+
+
+def fiducial_transforms_callback(msg):
+    """fiducial_transforms topic callback function that reads the position
+       of the marker on the leader and broadcast a new transform named fiducial_marker
+       which is the tf transform between the marker and the follower camera rgb optical frame
+    """
+    # Instantiate a broadcaster
+    broadcaster = tf2_ros.TransformBroadcaster()
+    # Creating transform frame to be broadcast
+    t_frame = geometry_msgs.msg.TransformStamped()
+    t_frame.header.stamp = rospy.Time.now()
+    t_frame.header.frame_id = "follower_tf/camera_rgb_optical_frame"
+    t_frame.child_frame_id = "fiducial_marker"
+
+    # Adding pose data to transform from fiducial_tranform topic and broadcasting new transform
+    for m in msg.transforms:
+        trans = m.transform.translation
+        rot = m.transform.rotation
+        t_frame.transform.translation.x = trans.x
+        t_frame.transform.translation.y = trans.y
+        t_frame.transform.translation.z = trans.z
+        t_frame.transform.rotation.x = rot.x
+        t_frame.transform.rotation.y = rot.y
+        t_frame.transform.rotation.z = rot.z
+        t_frame.transform.rotation.w = rot.w
+
+        broadcaster.sendTransform(t_frame)
+
+
+if __name__ == '__main__':
+    rospy.init_node('fiducial_broadcaster')
+    rospy.Subscriber('/fiducial_transforms', FiducialTransformArray, fiducial_transforms_callback, queue_size=1)
+    rospy.spin()

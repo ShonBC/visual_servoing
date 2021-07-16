@@ -18,7 +18,7 @@
     <!-- check if a marker needs to be put on this robot -->
      <node if="$(arg has_marker)"
         name="spawn_marker_on_robot"
-        pkg="final_project_x"
+        pkg="final_project_group2"
         type="spawn_marker_on_robot"
         output="screen"/>
 

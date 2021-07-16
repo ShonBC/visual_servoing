@@ -11,12 +11,12 @@
 
   <node pkg="move_base" type="move_base" respawn="false" name="leader_move_base" output="screen">
     <param name="base_local_planner" value="dwa_local_planner/DWAPlannerROS" />
-    <rosparam file="$(find final_project_x)/param/costmap_common_params_leader.yaml" command="load" ns="global_costmap" />
-    <rosparam file="$(find final_project_x)/param/costmap_common_params_leader.yaml" command="load" ns="local_costmap" />
-    <rosparam file="$(find final_project_x)/param/local_costmap_params_leader.yaml" command="load" />
-    <rosparam file="$(find final_project_x)/param/global_costmap_params_leader.yaml" command="load" />
-    <rosparam file="$(find final_project_x)/param/dwa_local_planner_params.yaml" command="load" />
-    <rosparam file="$(find final_project_x)/param/move_base_params.yaml" command="load" />
+    <rosparam file="$(find final_project_group2)/param/costmap_common_params_leader.yaml" command="load" ns="global_costmap" />
+    <rosparam file="$(find final_project_group2)/param/costmap_common_params_leader.yaml" command="load" ns="local_costmap" />
+    <rosparam file="$(find final_project_group2)/param/local_costmap_params_leader.yaml" command="load" />
+    <rosparam file="$(find final_project_group2)/param/global_costmap_params_leader.yaml" command="load" />
+    <rosparam file="$(find final_project_group2)/param/dwa_local_planner_params.yaml" command="load" />
+    <rosparam file="$(find final_project_group2)/param/move_base_params.yaml" command="load" />
     <param name="DWAPlannerROS/min_vel_x" value="0.0" if="$(arg move_forward_only)" />
 
 

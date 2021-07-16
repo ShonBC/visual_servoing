@@ -7,7 +7,7 @@
    args="$(find aws_robomaker_small_house_world)/worlds/small_house.world" respawn="false" output="screen" /> -->
 
   <!-- Launch gazebo -->
-  <include file="$(find final_project_x)/launch/empty_world.launch">
+  <include file="$(find final_project_group2)/launch/empty_world.launch">
     <arg name="world_name" value="$(arg world_name)" />
     <arg name="paused" value="false" />
     <arg name="use_sim_time" value="true" />
@@ -35,7 +35,7 @@
   <!-- leader robot-->
   <group ns="leader">
     <param name="tf_prefix" value="leader_tf" />
-    <include file="$(find final_project_x)/launch/single_robot.launch" >
+    <include file="$(find final_project_group2)/launch/single_robot.launch" >
       <arg name="init_pose" value="-x 5 -y 1 -z 0" />
       <arg name="robot_name"  value="leader" />
       <arg name="has_marker" value="true" />
@@ -45,7 +45,7 @@
   <!-- follower robot-->
   <group ns="follower">
       <param name="tf_prefix" value="follower_tf" />
-    <include file="$(find final_project_x)/launch/single_robot.launch" >
+    <include file="$(find final_project_group2)/launch/single_robot.launch" >
       <arg name="init_pose" value="-x 4 -y 1 -z 0" />
       <arg name="robot_name"  value="follower" />
       <arg name="has_marker" value="false" />

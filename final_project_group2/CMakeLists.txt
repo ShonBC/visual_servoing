@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.0.2)
-project(final_project_x)
+project(final_project_group2)
 
 ## Compile as C++11, supported in ROS Kinetic and newer
 # add_compile_options(-std=c++11)
@@ -112,7 +112,7 @@ find_package(catkin REQUIRED COMPONENTS
 ## DEPENDS: system dependencies of this project that dependent projects also need
 catkin_package(
 #  INCLUDE_DIRS include
-#  LIBRARIES final_project_x
+#  LIBRARIES final_project_group2
 #  CATKIN_DEPENDS rospy
 #  DEPENDS system_lib
 )
@@ -130,7 +130,7 @@ include_directories(
 
 ## Declare a C++ library
 # add_library(${PROJECT_NAME}
-#   src/${PROJECT_NAME}/final_project_x.cpp
+#   src/${PROJECT_NAME}/final_project_group2.cpp
 # )
 
 ## Add cmake target dependencies of the library
@@ -141,7 +141,7 @@ include_directories(
 ## Declare a C++ executable
 ## With catkin_make all packages are built within a single CMake context
 ## The recommended prefix ensures that target names across packages don't collide
-# add_executable(${PROJECT_NAME}_node src/final_project_x_node.cpp)
+# add_executable(${PROJECT_NAME}_node src/final_project_group2_node.cpp)
 
 ## Rename C++ executable without prefix
 ## The above recommended prefix causes long target names, the following renames the

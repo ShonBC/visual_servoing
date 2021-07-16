@@ -1,5 +1,5 @@
 <launch>
-  <arg name="world_name" default="$(find aws_robomaker_small_house_world)/worlds/small_house.world" />
+  <arg name="world_name" default="$(find final_project_group2)/worlds/small_house.world" />
   <arg name="gazebo_ros_output" default="screen"/>
 
  

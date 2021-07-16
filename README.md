@@ -9,4 +9,8 @@ The final project consists of two waffle turtlebots, named leader and follower. 
 
 1. Place the visual_servoing package in the src folder within a catkin workspace. 
 2. Use "catkin build" to build the workspace. 
-3. 
+3. Spawn the robots using:
+    roslaunch final_project_group2 multiple_robots.launch
+4. To begin autonomous navigation, in a new terminal run:
+    roslaunch final_project_group2 navigation.launch
+5. To begin the visual servoing, in a new terminal run:

@@ -27,7 +27,11 @@ def read_file(path):
         return state_list
 
 
-if __name__ == "__main__":
+def create_commands():
+    """
+    This function will return a dictionary containing all of the commands from waypoints.yaml.
+    :return: dictionary robot_waypts
+    """
     initial_list = read_file('waypoints.yaml')
     section = ""
     sub_section = ""
@@ -48,7 +52,12 @@ if __name__ == "__main__":
             robot_waypts[new_elt] = {}
             section = new_elt
 
-        print(robot_waypts)
+        return robot_waypts
+
+
+if __name__ == "__main__":
+    robot_cmds = create_commands()
+    print(robot_cmds)
 
 
 

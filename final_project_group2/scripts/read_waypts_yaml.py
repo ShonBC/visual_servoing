@@ -3,9 +3,22 @@ This Python file will take the information from "waypoints.yml" and convert the 
 will be further used for ROS commands.
 
 """
+import os
 
 robot_waypts = {}
 
+def file_path():
+    """Find file path for yaml file to read
+
+    Returns:
+        [str]: file path to yaml file
+    """
+
+    abs_path = os.path.abspath(__file__)
+    file_dir = os.path.dirname(abs_path)
+    parent_dir = os.path.dirname(file_dir)
+    new_path = os.path.join(parent_dir, 'yaml')
+    return new_path
 
 def read_file(path):
     """
@@ -32,7 +45,8 @@ def create_commands():
     This function will return a dictionary containing all of the commands from waypoints.yaml.
     :return: dictionary robot_waypts
     """
-    initial_list = read_file('waypoints.yaml')
+    path = file_path()
+    initial_list = read_file(path + '/' + 'waypoints.yaml')
     section = ""
     sub_section = ""
     for elt in initial_list:
@@ -57,8 +71,6 @@ def create_commands():
 
 
 if __name__ == "__main__":
+    
     robot_cmds = create_commands()
     print(robot_cmds)
-
-
-

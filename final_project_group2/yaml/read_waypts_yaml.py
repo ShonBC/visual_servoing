@@ -53,7 +53,7 @@ def create_commands():
             section = new_elt
             
             
-     return robot_waypts
+    return robot_waypts
 
 
 if __name__ == "__main__":

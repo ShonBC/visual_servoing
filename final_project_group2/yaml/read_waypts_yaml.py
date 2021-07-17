@@ -51,8 +51,9 @@ def create_commands():
         else:
             robot_waypts[new_elt] = {}
             section = new_elt
-
-        return robot_waypts
+            
+            
+     return robot_waypts
 
 
 if __name__ == "__main__":

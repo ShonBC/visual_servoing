@@ -17,9 +17,9 @@ def handle_inputs():
     return
 
 
-def movebase_client(location):
-    location_x = None
-    location_y = None
+def movebase_client(location: list):
+    location_x = location[0]
+    location_y = location[1]
 
     if location == "bedroom":
         location_x = -5.824071732770952
@@ -87,16 +87,6 @@ def publish_on_move_base():
 
 if __name__ == '__main__':
     rospy.init_node('movebase_client_leader')
-    handle_inputs()
+    # handle_inputs()
     # publish_on_move_base()
-
-#     # create leader class obj
-#     waypoints = leader.read_waypoints()
-#     location = []
-#     for key in range(1, 5):
-#         if result = movebase_client():
-#             location.append(waypoints[key][position][x])
-#             location.append(waypoints[key][position][y])
-#             move_base_client(location)
-
-# ex = {('1', 'living'): {'pos': {'x': 123}, {'y': 123}, {'z': 123}}}}
+    

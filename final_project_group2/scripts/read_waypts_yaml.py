@@ -47,7 +47,7 @@ def create_commands():
     """
     path = file_path()
     initial_list = read_file(path + '/' + 'waypoints.yaml')
-    section = 0
+    count = 0
     sub_section = ""
     for elt in initial_list:
         new_elt = (" ".join(elt.split())).replace(":", "")
@@ -63,7 +63,8 @@ def create_commands():
                 robot_waypts[section][sub_section][new_elt[0]] = new_elt[2:]
 
         else:
-            section += 1
+            count += 1
+            section = (count, new_elt)
             robot_waypts[section] = {}
                         
             

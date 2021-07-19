@@ -232,6 +232,13 @@ class Leader(object):
                 break
 
     def run(self, linear, angular):
+        """Publish to Twist for ROS operation
+
+        Args:
+            linear ([type]): Linear velocity
+            angular ([type]): angular velocity
+        """
+
         velocity = Twist()
         velocity.linear.x = linear
         velocity.angular.z = angular

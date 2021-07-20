@@ -31,6 +31,7 @@ def movebase_client(location):
     goal.target_pose.pose.orientation.w = 1.0
 
     client.send_goal(goal)
+    wait = client.wait_for_result()
     goal = True
     print('Leader arrived at goal')
     return goal

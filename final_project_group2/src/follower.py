@@ -23,6 +23,8 @@ class Follower():
         self._current_x_pos = None
         self._current_y_pos = None
         self._current_orientation = None
+        self._velocity_publisher = rospy.Publisher('follower/cmd_vel', Twist, queue_size=10)
+        self._rate = rospy.Rate(rate)
         
         # parent frame for the listener
         self._parent_frame = 'map'
@@ -38,6 +40,9 @@ class Follower():
         The position (x, y, z) and the yaw of the robot.
 
         """
+        
+        # marker_map_tf = self._tf_listener.lookupTransform('fiducial_marker', 'map', now)
+        
         try:
             now = rospy.Time.now()
             self._tf_listener.waitForTransform(self._parent_frame,
@@ -45,6 +50,7 @@ class Follower():
                                                now,
                                                rospy.Duration(5))
             (trans, rot) = self._tf_listener.lookupTransform(self._parent_frame, self._child_frame, now)
+            print(trans)
             self._current_x_pos = trans[0]
             self._current_y_pos = trans[1]
             # self.current_orientation = rot
@@ -71,7 +77,7 @@ class Follower():
             angular_velocity = -0.1
         else:
             angular_velocity = 0.0
-        rospy.sleep(5.0)
+        rospy.sleep(1)
         t0 = rospy.Time.now().to_sec()
         # keep rotating the robot until the desired relative rotation is reached
         while not rospy.is_shutdown():
@@ -87,7 +93,11 @@ class Follower():
                 rospy.loginfo("reached")
                 self.run(0, 0)
                 break
-
+    def run(self, linear, angular):
+        velocity = Twist()
+        velocity.linear.x = linear
+        velocity.angular.z = angular
+        self._velocity_publisher.publish(velocity)
 
 if __name__ == '__main__':
     try:

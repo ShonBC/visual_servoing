@@ -7,6 +7,7 @@ import follower
 import sys
 from move_base_msgs.msg import MoveBaseAction, MoveBaseGoal
 from geometry_msgs.msg import PoseStamped
+import numpy as np
 
 
 def handle_inputs():
@@ -19,10 +20,11 @@ def handle_inputs():
 
 
 def movebase_client(location):
-    location_x = location[0]
-    location_y = location[1]
+    location_x = location.pose.position.x
+    location_y = location.pose.position.y
+    
 
-    client = actionlib.SimpleActionClient('/leader/move_base', MoveBaseAction)
+    client = actionlib.SimpleActionClient('/follower/move_base', MoveBaseAction)
     client.wait_for_server()
 
     goal = MoveBaseGoal()
@@ -35,27 +37,28 @@ def movebase_client(location):
     client.send_goal(goal)
     wait = client.wait_for_result()
     goal = True
-    print('Leader arrived at goal')
+    print('Follower arrived at goal')
     return goal
 
 def follower_callback(msg):
-    x_pose = msg.pose.position.x
-    y_pose = msg.pose.position.y
-   
+    x_pos = msg.pose.position.x
+    y_pos = msg.pose.position.y
+    
 
 if __name__ == '__main__':
     rospy.init_node('movebase_client_follower')
     follow = follower.Follower()
     leader_goal = rospy.Subscriber('/leader/move_base_simple/goal', PoseStamped, follower_callback, queue_size=1)
-    
+    print(leader_goal.pose.position.x)
     
     while True:
         print('begin')
-        wypts = follow.get_follower_goal()
+        # wypts = follow.get_follower_goal()
+        wypts = [None, None]
         print(wypts)
         goal_reached = False
         
-        if wypts: # If marker is detected, follow
+        if wypts[0] and wypts[1]: # If marker is detected, follow
             print('marker detected')
             
             while goal_reached is False:
@@ -63,22 +66,29 @@ if __name__ == '__main__':
 
         else: # If no marker, rotate 360, 
             print('rotate')
-            angle = 0
-            while angle < 360:
-                angle += 5
+            count = 0
+            angle = 45
+            limit = 2 * np.pi
+            print(limit)
+            while count < limit:
+                count += np.deg2rad(angle)
                 follow.rotate(angle)
-                wypts = follower.get_follower_goal()
+                wypts = follow.get_follower_goal()
 
-                if wypts: # if marker is found follow
+                # print('rotate', wypts)
+                # print('ANGLE', angle, 'LIMIT', limit)
+                # print('count', count)
+
+                if wypts[0] and wypts[1]: # if marker is found follow
                     print('marker detected 2')
                     while goal_reached is False:
                         goal_reached = movebase_client(wypts)
                     
                     break
 
-            else: #Look to parameter server to go to leaders goal
+            if True: #Look to parameter server to go to leaders goal
                 while goal_reached is False:# use subscriber to read leader goal and call movebase_client(leader_goal)
                     print('param server')
                     goal_reached = movebase_client(leader_goal)
                     # Print "cant find marker, going to leader goal"
-    rospy.spin()     
+        rospy.spin()     

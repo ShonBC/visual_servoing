@@ -4,7 +4,7 @@ import read_waypts_yaml
 
 
 class Leader:
-    """ This class initializes with the robot name, and a set of waypoints that will be visited in order. """
+    """ This class initializes the robot, and a set of waypoints that will be visited in order. """
 
     def __init__(self, name='waffle'):
         """ Initialize class attributes
@@ -24,7 +24,7 @@ class Leader:
 
 
 if __name__ == '__main__':
-    leader = Leader()   # Initialize leader
+    leader = Leader()  # Initialize leader
     waypoints = leader.waypoints
     keys_ = list(waypoints.keys())  
     # Stores a new location based on waypoints.

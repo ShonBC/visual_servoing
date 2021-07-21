@@ -98,9 +98,6 @@ class Follower():
 
         Args:
             relative_angle: Angle desired to rotate
-
-        Returns:
-
         """
         if relative_angle > 0:
             angular_velocity = 0.5

@@ -47,14 +47,14 @@ if __name__ == '__main__':
 
         goal_reached = False
         
-        if wypts[0] and wypts[1]: # If marker is detected, follow
-            rospy.loginfo('Marker Detected!')
+        if wypts[0] and wypts[1]:  # If marker is detected, follow
+            rospy.loginfo('Marker Detected! Following Marker...')
             
             while goal_reached is False:
                 goal_reached = movebase_client(wypts)
             continue
 
-        else: # If no marker, rotate 360, 
+        else:  # If no marker, rotate 360, 
             rospy.loginfo('Searching for marker...')
             count = 0
             angle = 90
@@ -64,16 +64,16 @@ if __name__ == '__main__':
                 follow.rotate(angle)
                 wypts = follow.get_follower_goal()
 
-                if wypts[0] and wypts[1]: # if marker is found follow
-                    rospy.loginfo('Marker detected!')
+                if wypts[0] and wypts[1]:  # If marker is found follow
+                    rospy.loginfo('Marker detected! Following Marker...')
                     while goal_reached is False:
                         goal_reached = movebase_client(wypts)
                     
                     break
 
-            if True: #Look to parameter server to go to leaders goal
-                while goal_reached is False:# use subscriber to read leader goal and call movebase_client(leader_goal)
-                    rospy.loginfo('Retreaving destination from param server...')
+            if True:  # Look to parameter server to go to leaders goal
+                while goal_reached is False:
+                    rospy.loginfo('Retrieving destination from param server...')
                     goal_x = rospy.get_param('goal_x')
                     goal_y = rospy.get_param('goal_y')
                     wypts = [goal_x, goal_y]

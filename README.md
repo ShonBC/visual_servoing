@@ -14,3 +14,6 @@ The final project consists of two waffle turtlebots, named leader and follower. 
 4. To begin autonomous navigation, in a new terminal run:
     roslaunch final_project_group2 navigation.launch
 5. To begin the visual servoing, in a new terminal run:
+    rosrun final_project_group2 move_base_leader
+6. In a new terminal run:
+    rosrun final_project_group2 move_base_follower

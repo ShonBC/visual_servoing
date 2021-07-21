@@ -28,7 +28,7 @@ find_package(catkin REQUIRED COMPONENTS
 ## Uncomment this if the package has a setup.py. This macro ensures
 ## modules and global scripts declared therein get installed
 ## See http://ros.org/doc/api/catkin/html/user_guide/setup_dot_py.html
-# catkin_python_setup()
+catkin_python_setup()
 
 ################################################
 ## Declare ROS messages, services and actions ##
@@ -165,7 +165,11 @@ include_directories(
 install(
   PROGRAMS
     src/spawn_marker_on_robot
-    src/move_base_example
+    src/move_base_leader
+    src/move_base_follower
     src/broadcaster_example
+    scripts/final_project_group2/follower.py
+    scripts/final_project_group2/leader.py
+    scripts/final_project_group2/read_waypts_yaml.py
   DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
 )

@@ -1,28 +1,24 @@
 #!/usr/bin/env python
 
-# from scripts import leader
-import os
 import rospy
-# import leader.Leader
-import actionlib
-import sys
 import tf
-from geometry_msgs.msg import Twist, Point
-from nav_msgs.msg import Odometry
-# from bot_controller.util import compute_distance
-from tf.transformations import euler_from_quaternion
-from math import radians, degrees, atan2, pi
-from sensor_msgs.msg import LaserScan
+from geometry_msgs.msg import Twist
+from math import radians
 import geometry_msgs.msg
 import rospy
 import tf2_ros
-from fiducial_msgs.msg import FiducialTransform, FiducialTransformArray
+from fiducial_msgs.msg import FiducialTransformArray
 
-# import src.move_base_example
-# import src.spawn_marker_on_robot
 
 class Follower():
+    """Follower class robot that follows or searches for its leader robot
+    """
     def __init__(self, rate=4):
+        """Initialize class parameters
+
+        Args:
+            rate (int, optional): Defaults to 4.
+        """
         self._safe_dist = 0.5
         self._current_x_pos = None
         self._current_y_pos = None
@@ -70,86 +66,49 @@ class Follower():
             t_frame.transform.rotation.w = rot.w
 
             broadcaster.sendTransform(t_frame)
-            rate.sleep()
-    
-    # def get_follower_goal(self):
-    #     try:
-    #         now = rospy.Time.now()
-    #         transform_obj = self._tf_buffer.lookup_transform(self._parent_frame, self._child_frame, now, rospy.Duration(3))
-    #         rospy.loginfo(transform_obj)
-    #         return transform_obj[0]
-    #     except (tf.Exception, tf.ConnectivityException, tf.LookupException):
-    #         rospy.logwarn("Nothing")
-
-        
-
-
+            rate.sleep()    
 
     def get_follower_goal(self):
-        """Get the current pose of the robot from the /odom topic
+        """Get the current pose of the fiducial marker using lookup_transform
 
         Return
         ----------
-        The position (x, y, z) and the yaw of the robot.
+        The position (x, y) of the robot.
 
         """
-        
-        # marker_map_tf = self._tf_listener.lookupTransform('fiducial_marker', 'map', now)
         x_pos = None
         y_pos = None
-        # now = rospy.Time.now()
-        # transform_obj = self._tf_buffer.lookup_transform(self._parent_frame, self._child_frame,
-        #                                                      rospy.Time(), rospy.Duration(3))
 
         try:
             now = rospy.Time.now()
-            # self._tf_listener.waitForTransform(self._parent_frame,
-            #                                    self._child_frame,
-            #                                    now,
-            #                                    rospy.Duration(5))
-            # (trans, rot) = self._tf_listener.lookupTransform(self._parent_frame, self._child_frame, now)
-            # transform_obj = self._tf_buffer.lookup_transform(self._parent_frame, self._child_frame,
-                                                            #  now, rospy.Duration(3))
             transform_obj = self._tf_buffer.lookup_transform(self._parent_frame, self._child_frame,
                                                              rospy.Time(), rospy.Duration(3))
             rospy.loginfo(transform_obj)
             x_pos = transform_obj.transform.translation.x
             y_pos = transform_obj.transform.translation.y
-            print(x_pos)
-            print(y_pos)
             
-
-            # print(trans)
-            # print(rot)
-            # 
-            # self._current_x_pos = trans[0]
-            # self._current_y_pos = trans[1]
-            # self.current_orientation = rot
-            # rospy.loginfo(
-            #     "odom: ({},{}), {}".format(self._current_x_pos, self._current_y_pos, self._current_orientation[2]))
-            # return Point(*trans), rot[2]
         except (tf.Exception, tf.ConnectivityException, tf.LookupException):
             rospy.logfatal("TF Exception")
-        # goal = [self._current_x_pos, self._current_y_pos]
-        # goal = [x_pos, y_pos]
-        return x_pos, y_pos
+        goal = [x_pos, y_pos]
+
+        return goal
 
     def rotate(self, relative_angle):
-        """
+        """Rotates robot to a specified angle
 
         Args:
-            relative_angle:
+            relative_angle: Angle desired to rotate
 
         Returns:
 
         """
         if relative_angle > 0:
-            angular_velocity = 0.1
+            angular_velocity = 0.5
         elif relative_angle < 0:
-            angular_velocity = -0.1
+            angular_velocity = -0.5
         else:
             angular_velocity = 0.0
-        rospy.sleep(1)
+        rospy.sleep(.2)
         t0 = rospy.Time.now().to_sec()
         # keep rotating the robot until the desired relative rotation is reached
         while not rospy.is_shutdown():
@@ -165,16 +124,23 @@ class Follower():
                 rospy.loginfo("reached")
                 self.run(0, 0)
                 break
+
     def run(self, linear, angular):
+        """Publish velocities
+
+        Args:
+            linear (float): linear velocity
+            angular (float): angular velocity
+        """
         velocity = Twist()
         velocity.linear.x = linear
         velocity.angular.z = angular
         self._velocity_publisher.publish(velocity)
 
+
 if __name__ == '__main__':
     try:
         Follower = Follower()
-        Follower.handle_inputs()
     except rospy.ROSInterruptException:
         rospy.loginfo("Action terminated.")
     rospy.init_node('node_name')

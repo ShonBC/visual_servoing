@@ -18,4 +18,6 @@
 
   <!-- launch rviz -->
   <node name="rviz" pkg="rviz" type="rviz" args="-d $(find final_project_group2)/rviz/turtlebot3_navigation.rviz" />
+  <node pkg="final_project_group2" type="broadcaster_example" name="boradcaster" output="screen">
+  </node>
 </launch>

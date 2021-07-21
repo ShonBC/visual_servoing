@@ -1,0 +1,11 @@
+<launch>
+    <node pkg="final_project_group2" type="broadcaster_example" name="boradcaster" output="screen">
+        
+    </node>
+    <node pkg="final_project_group2" type="move_base_leader" name="leader_move_base" output="screen">
+        
+    </node>
+    <node pkg="final_project_group2" type="move_base_follower" name="follower_move_base" output="screen">
+        
+    </node>
+</launch>    

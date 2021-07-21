@@ -28,7 +28,7 @@ if __name__ == '__main__':
     waypoints = leader.waypoints
     keys_ = list(waypoints.keys())  
     # Stores a new location based on waypoints.
-    # location = []
+    location = []
     for i in range(0, 4):
         number = keys_[i]
         print(number)

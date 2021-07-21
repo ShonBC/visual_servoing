@@ -2,7 +2,7 @@
 
 import rospy
 import actionlib
-import leader
+from final_project_group2 import leader
 import sys
 from move_base_msgs.msg import MoveBaseAction, MoveBaseGoal
 from geometry_msgs.msg import PoseStamped

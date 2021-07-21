@@ -19,7 +19,8 @@ def file_path():
     abs_path = os.path.abspath(__file__)
     file_dir = os.path.dirname(abs_path)
     parent_dir = os.path.dirname(file_dir)
-    new_path = os.path.join(parent_dir, 'yaml')
+    grand_dir = os.path.dirname(parent_dir)
+    new_path = os.path.join(grand_dir, 'yaml')
     return new_path
 
 
@@ -78,3 +79,4 @@ def create_commands():
 # This code can be tested manually.
 if __name__ == "__main__":
     robot_goals = create_commands()
+    print(robot_goals)

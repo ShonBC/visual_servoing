@@ -60,7 +60,7 @@ if __name__ == '__main__':
                 room = keys_[num]
                 rospy.set_param('goal_x', location_next[0])
                 rospy.set_param('goal_y', location_next[1])
-                rospy.loginfo("Leader's new goal is now ", room[1])
+                rospy.loginfo("Leader's new goal is now {}".format(room[1]))
                 while goal_reached is False:
                     goal_reached = movebase_client(location_next)
                 continue

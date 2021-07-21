@@ -72,6 +72,8 @@ if __name__ == '__main__':
                 location_next = [float(wypts[keys_[num]]['position']['x']), float(wypts[keys_[num]]['position']['y'])]
                 room = keys_[num]
                 publish_on_move_base(location_next)
+                rospy.set_param('goal_x', location_next[0])
+                rospy.set_param('goal_y', location_next[1])
                 print('Leader new goal', room[1])
                 while goal_reached is False:
                     goal_reached = movebase_client(location_next)

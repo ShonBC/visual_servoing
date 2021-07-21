@@ -34,7 +34,7 @@ class Follower():
         self._parent_frame = 'map'
         # child frame for the listener
         self._child_frame = 'fiducial_marker'
-        self._tf_listener = tf.TransformListener()
+        # self._tf_listener = tf.TransformListener()
         self._tf_buffer = tf2_ros.Buffer()
 
         # rospy.init_node('node_name', anonymous=True)
@@ -95,26 +95,44 @@ class Follower():
         """
         
         # marker_map_tf = self._tf_listener.lookupTransform('fiducial_marker', 'map', now)
-        
+        x_pos = None
+        y_pos = None
+        # now = rospy.Time.now()
+        # transform_obj = self._tf_buffer.lookup_transform(self._parent_frame, self._child_frame,
+        #                                                      rospy.Time(), rospy.Duration(3))
+
         try:
             now = rospy.Time.now()
-            self._tf_listener.waitForTransform(self._parent_frame,
-                                               self._child_frame,
-                                               now,
-                                               rospy.Duration(5))
-            (trans, rot) = self._tf_listener.lookupTransform(self._parent_frame, self._child_frame, now)
-            print(trans)
-            print(rot)
-            self._current_x_pos = trans[0]
-            self._current_y_pos = trans[1]
-            self.current_orientation = rot
-            rospy.loginfo(
-                "odom: ({},{}), {}".format(self._current_x_pos, self._current_y_pos, self._current_orientation[2]))
+            # self._tf_listener.waitForTransform(self._parent_frame,
+            #                                    self._child_frame,
+            #                                    now,
+            #                                    rospy.Duration(5))
+            # (trans, rot) = self._tf_listener.lookupTransform(self._parent_frame, self._child_frame, now)
+            # transform_obj = self._tf_buffer.lookup_transform(self._parent_frame, self._child_frame,
+                                                            #  now, rospy.Duration(3))
+            transform_obj = self._tf_buffer.lookup_transform(self._parent_frame, self._child_frame,
+                                                             rospy.Time(), rospy.Duration(3))
+            rospy.loginfo(transform_obj)
+            x_pos = transform_obj.transform.translation.x
+            y_pos = transform_obj.transform.translation.y
+            print(x_pos)
+            print(y_pos)
+            
+
+            # print(trans)
+            # print(rot)
+            # 
+            # self._current_x_pos = trans[0]
+            # self._current_y_pos = trans[1]
+            # self.current_orientation = rot
+            # rospy.loginfo(
+            #     "odom: ({},{}), {}".format(self._current_x_pos, self._current_y_pos, self._current_orientation[2]))
             # return Point(*trans), rot[2]
         except (tf.Exception, tf.ConnectivityException, tf.LookupException):
             rospy.logfatal("TF Exception")
-        goal = [self._current_x_pos, self._current_y_pos]
-        return goal
+        # goal = [self._current_x_pos, self._current_y_pos]
+        # goal = [x_pos, y_pos]
+        return x_pos, y_pos
 
     def rotate(self, relative_angle):
         """

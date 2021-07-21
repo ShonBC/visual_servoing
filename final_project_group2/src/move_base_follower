@@ -76,6 +76,8 @@ if __name__ == '__main__':
             
             while goal_reached is False:
                 goal_reached = movebase_client(wypts)
+                print(goal_reached)
+            continue
 
         else: # If no marker, rotate 360, 
             print('rotate')
@@ -83,17 +85,17 @@ if __name__ == '__main__':
             angle = 45
             limit = 2 * np.pi
             print(limit)
-            # while count < limit:
-            #     count += np.deg2rad(angle)
-            #     follow.rotate(angle)
-            #     wypts = follow.get_follower_goal()
+            while count < limit:
+                count += np.deg2rad(angle)
+                follow.rotate(angle)
+                wypts = follow.get_follower_goal()
 
-            #     if wypts[0] and wypts[1]: # if marker is found follow
-            #         print('marker detected 2')
-            #         while goal_reached is False:
-            #             goal_reached = movebase_client(wypts)
+                if wypts[0] and wypts[1]: # if marker is found follow
+                    print('marker detected 2')
+                    while goal_reached is False:
+                        goal_reached = movebase_client(wypts)
                     
-            #         break
+                    break
 
             if True: #Look to parameter server to go to leaders goal
                 while goal_reached is False:# use subscriber to read leader goal and call movebase_client(leader_goal)
@@ -104,4 +106,6 @@ if __name__ == '__main__':
                     goal_reached = movebase_client(wypts)
                     # Print "cant find marker, going to leader goal"
                 continue
-        rospy.spin()     
+        rospy.spin() 
+            
+          

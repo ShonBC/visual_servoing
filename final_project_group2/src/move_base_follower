@@ -43,14 +43,22 @@ def movebase_client(location):
 def follower_callback(msg):
     x_pos = msg.pose.position.x
     y_pos = msg.pose.position.y
-    
+    print(msg.header.seq)
+    print('callback',x_pos, y_pos)
+
+# def listener():
+#     # rospy.init_node('listener')
+#     rospy.Subscriber('/leader/move_base_simple/goal', PoseStamped, follower_callback, queue_size=1)
+#     rospy.spin()
 
 if __name__ == '__main__':
     rospy.init_node('movebase_client_follower')
     follow = follower.Follower()
     leader_goal = rospy.Subscriber('/leader/move_base_simple/goal', PoseStamped, follower_callback, queue_size=1)
-    print(leader_goal.pose.position.x)
-    
+    # leader_goal = listener()
+    # print(leader_goal.header.seq)
+    print(leader_goal)
+
     while True:
         print('begin')
         # wypts = follow.get_follower_goal()
@@ -74,10 +82,6 @@ if __name__ == '__main__':
                 count += np.deg2rad(angle)
                 follow.rotate(angle)
                 wypts = follow.get_follower_goal()
-
-                # print('rotate', wypts)
-                # print('ANGLE', angle, 'LIMIT', limit)
-                # print('count', count)
 
                 if wypts[0] and wypts[1]: # if marker is found follow
                     print('marker detected 2')

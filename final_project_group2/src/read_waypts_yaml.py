@@ -6,7 +6,7 @@ will be further used for ROS commands.
 """
 import os
 
-robot_waypoints = {}
+robot_waypoints = {}    # Dict which will store the robot coordinates for each room.
 
 
 def file_path():
@@ -46,31 +46,35 @@ def create_commands():
     """
     This function will return a dictionary containing all of the commands from waypoints.yaml.
     
-    :return: dictionary robot_waypoints
+    :return: dictionary of robot_waypoints
     
     """
     path = file_path()
+    # Read 'waypoints.yaml' and return a list called initial_list.
     initial_list = read_file(path + '/' + 'waypoints.yaml')
-    count = 0
-    section = ""
-    sub_section = ""
+    count = 0       # Will be used to order rooms.
+    section = ""    # Will be used to keep track of the rooms
+    sub_section = ""    # Will be used to keep track of room's orientation or position.
     for elt in initial_list:
-        new_elt = (" ".join(elt.split())).replace(":", "")
+        new_elt = (" ".join(elt.split())).replace(":", "")  # Deletes ":" and "\n" and creates new_elt
+        # Check if elt is either "orientation", "position", "x", "y", "z" or "w'.
         if "orientation" in elt or "w" in elt or "x" in elt or "y" in elt or "z" in elt or "position" in elt:
+            # If currrent elt contains orientation or position, create new blank dict in either "orientation" or "position" key inside room
             if new_elt == "orientation" or new_elt == "position":
                 robot_waypoints[section][new_elt] = {}
-                sub_section = new_elt
+                sub_section = new_elt   # Keep track of key being used. 
             else:
-                robot_waypoints[section][sub_section][new_elt[0]] = new_elt[2:]
+                # Store coordinate position for the particular sub_section(orientation, position) for room.
+                robot_waypoints[section][sub_section][new_elt[0]] = new_elt[2:]     
 
         else:
-            count += 1
-            section = (count, new_elt)
-            robot_waypoints[section] = {}
+            count += 1      # Increment count to indicate room order
+            section = (count, new_elt)  # Store room order and room name in tuple key.
+            robot_waypoints[section] = {}   # Create new dict in value located in section.
 
     return robot_waypoints
 
 
+# To test manually
 if __name__ == "__main__":
-    
     robot_goals = create_commands()
